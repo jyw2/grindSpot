@@ -10,6 +10,7 @@ import { AddSessionComponent } from './add-session/add-session.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { UserGrindSpotComponent } from './user-grind-spot/user-grind-spot.component';
+import { RankingElementComponent } from '.ranking/ranking-element/ranking-element.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { UserGrindSpotComponent } from './user-grind-spot/user-grind-spot.compon
     AddSessionComponent,
     LoginComponent,
     SignUpComponent,
-    UserGrindSpotComponent
+    UserGrindSpotComponent,
+    RankingElementComponent
   ],
   imports: [
     BrowserModule

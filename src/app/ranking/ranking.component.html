@@ -1,1 +1,12 @@
-<p>ranking works!</p>
+<div class="row justify-content-center">
+  <div class="col col-lg-6">
+    <div class="row">
+
+    </div>
+    <div class="list-group">
+     <app-ranking-element  *ngFor = 'let spot of grindSpots' [name] = 'spot' (clickedEmit) = 'spotSelected($event)'></app-ranking-element>
+    </div>
+  </div>
+
+</div>
+

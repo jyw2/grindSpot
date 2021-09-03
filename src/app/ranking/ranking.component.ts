@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RankingComponent implements OnInit {
 
+  public grindSpots:string[] = ['Fogans', 'Helms','Stars End']
+
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  spotSelected(name:any){
+    //Redirect to the specefic grindspot page
+
   }
 
 }
