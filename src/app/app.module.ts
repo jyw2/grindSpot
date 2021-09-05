@@ -10,7 +10,15 @@ import { AddSessionComponent } from './add-session/add-session.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { UserGrindSpotComponent } from './user-grind-spot/user-grind-spot.component';
-import { RankingElementComponent } from '.ranking/ranking-element/ranking-element.component';
+import { Routes,RouterModule } from '@angular/router';
+import {HttpClientModule} from '@angular/common/http'
+import { FormsModule } from '@angular/forms';
+
+const routes:Routes = [
+  {path: '', component: HomeComponent},
+  {path: 'spot/:name', component: GrindSpotComponent},
+]
+
 
 @NgModule({
   declarations: [
@@ -23,10 +31,12 @@ import { RankingElementComponent } from '.ranking/ranking-element/ranking-elemen
     LoginComponent,
     SignUpComponent,
     UserGrindSpotComponent,
-    RankingElementComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(routes),
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
