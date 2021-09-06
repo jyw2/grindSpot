@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { CentralData } from '../centralizedData.service';
 
 @Component({
   selector: 'app-grind-spot',
@@ -7,9 +10,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GrindSpotComponent implements OnInit {
 
-  constructor() { }
+  public title:string = 'Fogans'
+
+  //filters
+  public time:number = 1
+  public class:number = 1
+  public APStart:string = ''//empty means all
+  public APEnd:string = ''//empty means all
+  public DPStart:string = ''//empty means all
+  public DPEnd:string = ''//empty means all
+
+  //class list
+  public classes:string[]
+
+  constructor(private routerService:Router,
+    private http:HttpClient,private data:CentralData,
+    private route:ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.classes = this.data.getClasses()
+    this.title = this.route.snapshot.params['spot']
+  }
+
+  getData(){
+    //gets points from API and plots it on the graph
+
   }
 
 }

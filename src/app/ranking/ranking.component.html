@@ -2,37 +2,65 @@
 <div class="row justify-content-center">
 
   <div class="col col-lg-6">
-    <div class="row">
+    <div class="col-4">
+      <h2>{{title}}</h2>
+    </div>
+    <div class="row align-items-center ">
+
       <div class="col">
-        <h2>{{title + " for this"}}</h2>
-      </div>
-      <div class="col">
-        <select class="form-select" [(ngModel)] = 'time'>
-          <option selected value="1">year</option>
-          <option value="2">month</option>
-          <option value="3">week</option>
+        <label for="time" class = 'form-label'>Time</label>
+        <select class="form-select" id = 'time' [(ngModel)] = 'class'>
+          <option selected value="1">Past year</option>
+          <option value="2"> Past month</option>
+          <option value="3"> Past week</option>
         </select>
       </div>
-    </div>
+      <div class="col">
+        <label for="class" class = 'form-label'>Class</label>
+        <select class="form-select" id = 'class' [(ngModel)] = 'time'>
+          <option selected value="1">All</option>
+          <option *ngFor = 'let class of classes;let i = index'value="{{i+2}}">{{class}}</option>
+        </select>
+      </div>
 
-    <div class="row">
-
-    </div>
-    <ul class="list-group ">
-      <li style = 'cursor: pointer;' *ngFor = 'let spot of grindSpots; let i = index' li class="list-group-item" (click) = 'spotSelected(spot)'>
-        <div class="row" >
-
-          <div class="col col-2">
-            <a>{{(i+1)+'. '+spot.name}}</a>
-          </div>
-          <div class="col">
-            <p >{{spot.quantity + ' ' + units}}</p>
-          </div>
+      <div class="col">
+        <label for="AP" class = 'form-label'>AP [Leave empty for all]</label>
+        <div class="input-group">
+          <input class = 'form-control' type="text" id ='AP' [(ngModel)] = 'APStart'>
+          <div class="input-group-text">To</div>
+          <input class = 'form-control' type="text"  [(ngModel)] = 'APEnd'>
         </div>
-      </li>
+      </div>
+
+      <div class="col">
+        <label for="DP" class = 'form-label'>DP [Leave empty for all]</label>
+        <div class="input-group">
+          <input class = 'form-control' type="text" id ='DP' [(ngModel)] = 'DPStart'>
+          <div class="input-group-text">To</div>
+          <input class = 'form-control' type="text" [(ngModel)] = 'DPEnd'>
+        </div>
+
+      </div>
 
 
-    </ul>
+
+
+      <ul class="list-group pt-3">
+        <li style = 'cursor: pointer;' *ngFor = 'let spot of grindSpots; let i = index' li class="list-group-item" (click) = 'spotSelected(spot)'>
+          <div class="row" >
+
+            <div class="col col-2">
+              <a>{{(i+1)+'. '+spot.name}}</a>
+            </div>
+            <div class="col">
+              <p >{{spot.quantity + ' ' + units}}</p>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+
+
   </div>
 </div>
 

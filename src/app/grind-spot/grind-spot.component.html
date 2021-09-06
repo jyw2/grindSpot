@@ -1,1 +1,53 @@
-<p>grind-spot works!</p>
+
+<div class="row justify-content-center">
+
+  <div class="col col-lg-6">
+    <div class="d-flex mt-5 justify-content-between">
+      <h2>{{title}}</h2>
+      <button class = 'btn btn-primary'>My grinds at {{title}}</button>
+    </div>
+
+
+    <div class="row align-items-center ">
+
+      <div class="col">
+        <label for="time" class = 'form-label'>Time</label>
+        <select class="form-select" id = 'time' [(ngModel)] = 'class'>
+          <option selected value="1">Past year</option>
+          <option value="2"> Past month</option>
+          <option value="3"> Past week</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="class" class = 'form-label'>Class</label>
+        <select class="form-select" id = 'class' [(ngModel)] = 'time'>
+          <option selected value="1">All</option>
+          <option *ngFor = 'let class of classes;let i = index'value="{{i+2}}">{{class}}</option>
+        </select>
+      </div>
+
+      <div class="col">
+        <label for="AP" class = 'form-label'>AP [Leave empty for all]</label>
+        <div class="input-group">
+          <input class = 'form-control' type="text" id ='AP' [(ngModel)] = 'APStart'>
+          <div class="input-group-text">To</div>
+          <input class = 'form-control' type="text"  [(ngModel)] = 'APEnd'>
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="DP" class = 'form-label'>DP [Leave empty for all]</label>
+        <div class="input-group">
+          <input class = 'form-control' type="text" id ='DP' [(ngModel)] = 'DPStart'>
+          <div class="input-group-text">To</div>
+          <input class = 'form-control' type="text" [(ngModel)] = 'DPEnd'>
+        </div>
+
+      </div>
+
+      <app-graphs></app-graphs>
+
+  </div>
+</div>
+
+

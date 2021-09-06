@@ -13,10 +13,14 @@ import { UserGrindSpotComponent } from './user-grind-spot/user-grind-spot.compon
 import { Routes,RouterModule } from '@angular/router';
 import {HttpClientModule} from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FormComponent } from './form/form.component'
 
 const routes:Routes = [
   {path: '', component: HomeComponent},
-  {path: 'spot/:name', component: GrindSpotComponent},
+  {path: 'spot/:spot', component: GrindSpotComponent},
+  {path: 'add', component: FormComponent}
 ]
 
 
@@ -31,12 +35,15 @@ const routes:Routes = [
     LoginComponent,
     SignUpComponent,
     UserGrindSpotComponent,
+    FormComponent,
   ],
   imports: [
     BrowserModule,
+    NgxChartsModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
