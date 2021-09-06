@@ -1,7 +1,4 @@
 
-<div class="row justify-content-center">
-
-  <div class="col col-lg-6">
     <div class="col-4">
       <h2>{{title}}</h2>
     </div>
@@ -9,7 +6,7 @@
 
       <div class="col">
         <label for="time" class = 'form-label'>Time</label>
-        <select class="form-select" id = 'time' [(ngModel)] = 'class'>
+        <select class="form-select" id = 'time' [(ngModel)] = 'time'>
           <option selected value="1">Past year</option>
           <option value="2"> Past month</option>
           <option value="3"> Past week</option>
@@ -17,7 +14,7 @@
       </div>
       <div class="col">
         <label for="class" class = 'form-label'>Class</label>
-        <select class="form-select" id = 'class' [(ngModel)] = 'time'>
+        <select class="form-select" id = 'class' [(ngModel)] = 'class'>
           <option selected value="1">All</option>
           <option *ngFor = 'let class of classes;let i = index'value="{{i+2}}">{{class}}</option>
         </select>
@@ -26,18 +23,18 @@
       <div class="col">
         <label for="AP" class = 'form-label'>AP [Leave empty for all]</label>
         <div class="input-group">
-          <input class = 'form-control' type="text" id ='AP' [(ngModel)] = 'APStart'>
+          <input class = 'form-control' type="number" id ='AP' [(ngModel)] = 'APStart'>
           <div class="input-group-text">To</div>
-          <input class = 'form-control' type="text"  [(ngModel)] = 'APEnd'>
+          <input class = 'form-control' type="number"  [(ngModel)] = 'APEnd'>
         </div>
       </div>
 
       <div class="col">
         <label for="DP" class = 'form-label'>DP [Leave empty for all]</label>
         <div class="input-group">
-          <input class = 'form-control' type="text" id ='DP' [(ngModel)] = 'DPStart'>
+          <input class = 'form-control' type="number" id ='DP' [(ngModel)] = 'DPStart'>
           <div class="input-group-text">To</div>
-          <input class = 'form-control' type="text" [(ngModel)] = 'DPEnd'>
+          <input class = 'form-control' type="number" [(ngModel)] = 'DPEnd'>
         </div>
 
       </div>
@@ -46,7 +43,7 @@
 
 
       <ul class="list-group pt-3">
-        <li style = 'cursor: pointer;' *ngFor = 'let spot of grindSpots; let i = index' li class="list-group-item" (click) = 'spotSelected(spot)'>
+        <li style = 'cursor: pointer;' *ngFor = 'let spot of grindSpots; let i = index' li class="list-group-item" (click) = 'spotSelected(spot.name)'>
           <div class="row" >
 
             <div class="col col-2">
@@ -60,8 +57,5 @@
 
       </ul>
 
-
-  </div>
-</div>
 
 

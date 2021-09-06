@@ -1,14 +1,16 @@
-<div class="row  justify-content-center">
-  <div class="col col-lg-6">
-    <h1>Add a grind session</h1>
-    <form >
-      <div class="row">
+
+    <h1 class = 'mt-3'>Add a Grind Session</h1>
+    <hr>
+    <p>Required</p>
+      <p>Silver (Millions)</p>
+      <div class="row pb-2">
         <div class="col">
+
           <div class="input-group">
-            <div class="input-group-text">Silver before</div>
-            <input type="text" class= 'form-control' id=''>
-            <div class="input-group-text">and Silver After</div>
-            <input type="text" class= 'form-control' id=''>
+            <div class="input-group-text">Before</div>
+            <input type="number" class= 'form-control' id='before' [(ngModel)] = 'before'>
+            <div class="input-group-text">After</div>
+            <input type="number" class= 'form-control' id='after' [(ngModel)] = 'after'>
           </div>
         </div>
         <div class="col-1">
@@ -17,14 +19,69 @@
         <div class="col">
           <div class="input-group">
             <div class="input-group-text">Silver gained</div>
-            <input type="text" class= 'form-control' id=''>
+            <input type="number" class= 'form-control' id='gain' [(ngModel)] = 'gain'>
 
           </div>
         </div>
       </div>
-      <input type="text" class= 'form-control' id=''>
-    </form>
+      <div class="row">
+        <div class="col">
+          <label for="time" class = 'form-label'>Time Grinded (minutes)</label>
+          <input type="number" class= 'form-control pb-2' id='time'[(ngModel)] = 'time'>
 
+        </div>
+        <div class="col">
+          <label for="class" class = 'form-label'>Grind Spot</label>
+          <select class="form-select" id = 'spot' [(ngModel)] = 'spot'>
+            <option selected value="default">Select Grind Spot</option>
+            <option *ngFor = 'let spot of spots;let i = index'value="{{spot}}">{{spot}}</option>
+          </select>
+        </div>
+      </div>
+
+
+
+      <div class="row pb-4">
+        <div class="col">
+          <label for="AP" class = 'form-label'>AP</label>
+          <input type="number" class= 'form-control' id='AP' [(ngModel)] = 'AP'>
+        </div>
+
+        <div class="col">
+          <label for="DP" class = 'form-label'>DP</label>
+          <input type="number" class= 'form-control' id='DP' [(ngModel)] = 'DP'>
+        </div>
+
+
+        <div class="col">
+          <label for="class" class = 'form-label'>Class</label>
+          <select class="form-select" id = 'class' [(ngModel)] = 'class'>
+            <option selected value="default">Select Class</option>
+            <option *ngFor = 'let class of classes;let i = index'value="{{class}}">{{class}}</option>
+          </select>
+        </div>
+
+      </div>
+     <hr>
+    <p>Optional</p>
+  <div class="row">
+    <div class="col">
+      <div class="form-check">
+        <input type="checkbox" class = 'form-check-input' id= 'agris' value = 'yes' [(ngModel)] = 'agris'>
+        <label class ="form-check-label" for = 'agris'> Agris</label>
+      </div>
+    </div>
+    <div class="col">
+      <label for="boost" class = 'form-label'>Boosts</label>
+      <div class="input-group">
+        <input type="number" class= 'form-control' id='boost' [(ngModel)] = 'boosts'>
+        <div class="input-group-text">%</div>
+      </div>
+    </div>
   </div>
-</div>
+  <hr>
+
+  <button class = 'btn btn-primary' (click) = 'formSubmit()'>Add Session</button>
+
+
 

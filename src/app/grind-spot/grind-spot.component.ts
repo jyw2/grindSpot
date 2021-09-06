@@ -29,12 +29,20 @@ export class GrindSpotComponent implements OnInit {
 
   ngOnInit(): void {
     this.classes = this.data.getClasses()
-    this.title = this.route.snapshot.params['spot']
+    this.title = this.unWebsafe(this.route.snapshot.params['spot'])
   }
 
   getData(){
     //gets points from API and plots it on the graph
 
+  }
+
+
+  unWebsafe(name:string){
+    //converts websafe string back into normal text
+    name = (name as string).replace('-',' ')
+    name = (name as string).replace("~","'")
+    return name
   }
 
 }

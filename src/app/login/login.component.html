@@ -1,1 +1,14 @@
-<p>login works!</p>
+<h1 class = 'mt-2'>Login or Register</h1>
+<div class="alert alert-danger" *ngIf = 'invalid'>Incorrect username or password</div>
+<div class="alert alert-danger" *ngIf = 'invalidReg'>Account already exists</div>
+
+<label for="Username" class = 'form-label'>Email</label>
+<!-- Needs some client side verification -->
+<input type="string" class= 'form-control' id='email' [(ngModel)] = 'username'>
+
+<label for="Password" class = 'form-label'>Password</label>
+<input type="password" class= 'form-control' id='Password' [(ngModel)] = 'password'>
+
+<button class = 'btn btn-outline-dark mt-4 me-3' (click) = login() >Login</button>
+<button class = 'btn btn-outline-dark mt-4'(click) = 'register()'>Register</button>
+<button class = 'btn btn-outline-dark mt-4' (click) = 'delete()' >Delete</button>

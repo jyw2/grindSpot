@@ -55,8 +55,8 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   websafe(name:string){
     //replaces spaces with - and ' with nothing
-    name = name.replace(' ','-')
-    name = name.replace("'","")
+    name = (name as string).replace(' ','-')
+    name = (name as string).replace("'","~")
     return name
   }
 
