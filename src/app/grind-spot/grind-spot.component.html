@@ -9,7 +9,7 @@
 
       <div class="col">
         <label for="time" class = 'form-label'>Time</label>
-        <select class="form-select" id = 'time' [(ngModel)] = 'class'>
+        <select class="form-select" id = 'time' [(ngModel)] = 'time'>
           <option selected value="1">Past year</option>
           <option value="2"> Past month</option>
           <option value="3"> Past week</option>
@@ -17,9 +17,9 @@
       </div>
       <div class="col">
         <label for="class" class = 'form-label'>Class</label>
-        <select class="form-select" id = 'class' [(ngModel)] = 'time'>
-          <option selected value="1">All</option>
-          <option *ngFor = 'let class of classes;let i = index'value="{{i+2}}">{{class}}</option>
+        <select class="form-select" id = 'class' [(ngModel)] = 'class'>
+          <option selected value="All">All</option>
+          <option *ngFor = 'let class of classes;let i = index'value="{{class}}">{{class}}</option>
         </select>
       </div>
 
@@ -39,10 +39,29 @@
           <div class="input-group-text">To</div>
           <input class = 'form-control' type="text" [(ngModel)] = 'DPEnd'>
         </div>
+      </div>
+
+      <!-- checkboxes -->
+      <div class="row pt-3">
+        <div class="col">
+          <div class="form-check">
+            <input type="checkbox" class = 'form-check-input' id= 'agris' value = 'true' [(ngModel)] = 'agris'>
+            <label class ="form-check-label" for = 'agris'> Agris</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class = 'form-check-input' id= 'boosts' value = 'true' [(ngModel)] = 'boosts'>
+            <label class ="form-check-label" for = 'boosts'> Drop Rate Boosts</label>
+          </div>
+        </div>
+        <div class="col align-items-start">
+          <button class="btn btn-primary" (click) = 'getData()'>Apply Filters</button>
+        </div>
+
 
       </div>
 
-      <app-graphs></app-graphs>
+
+      <app-graphs [chartData] = 'chartData'></app-graphs>
       <app-form spot = '{{title}}'></app-form>
 
 

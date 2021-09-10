@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CentralData } from '../centralizedData.service';
 
@@ -10,10 +10,13 @@ import { CentralData } from '../centralizedData.service';
 })
 export class LoginComponent implements OnInit {
 
+  @ViewChild('email') email:any
   public username:string
   public password:string
   public invalid:boolean = false
-  public invalidReg:boolean = false
+  public invalidMessage:string
+  public successMessage:string
+  public success:boolean = false
 
 
   constructor(private http:HttpClient, private data: CentralData, private router:Router) { }
@@ -21,21 +24,21 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  encrypt(credential:string){
-    //returns encrypted credential
-    return credential
-  }
-
   login(){
     this.invalid = false
-    this.invalidReg = false
+    this.success = false
+
     //scramble credentials then send and receive token if valid
     this.http.post('  https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD9c62y3FMZc7CRY1kyOOBSfZ3_d29VNt4',
     {
-      email:this.encrypt(this.username),
-      password:this.encrypt(this.password),
+      email:this.username,
+      password:this.password,
       returnSecureToken:true
     }).subscribe((response:any)=>{
+      //signal user
+      this.success = true
+      this.successMessage = "Login successful! Redirecting..."
+
       //login found
       localStorage.setItem('token', response.idToken)
       //store time of expiration in milliseconds
@@ -43,57 +46,79 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('refresh', response.refresh_token)
       //signal componenets we are authenticated
       this.data.logIn()
-      this.router.navigate(['/myGrindSpots'])
+
+      setTimeout(()=>{
+        //delay to allow message to be seen
+       this.router.navigate(['/myGrindSpots'])
+       this.invalid = false
+       this.success = false
+      },1000)
+
     },(error:any)=>{
       console.log(error)
       //Login not found
       this.invalid = true
+      this.invalidMessage = 'Login failed, please check your username and or password.'
       this.username = ''
       this.password = ''
 
     })
   }
 
-
-
   register(){
 
-    console.log(this.encrypt(this.username))
     this.invalid = false
-    this.invalidReg = false
+    this.success = false
+
+    //validate
+    if (this.email.valid && this.username.includes('.')){
+      console.log('valid')
+    }else if( this.password.length <= 8){
+      this.invalid = true
+      this.invalidMessage = 'Passwords must be longer than 8 characters'
+      return
+    }
+    else{
+      this.invalid = true
+      this.invalidMessage = 'Please enter a valid Email.'
+      return
+    }
+
      //scramble credentials then send and receive token if valid
      this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD9c62y3FMZc7CRY1kyOOBSfZ3_d29VNt4',
      {
-       email:this.encrypt(this.username),
-       password:this.encrypt(this.password),
+       email:this.username,
+       password:this.password,
        returnSecureToken:true
      }).subscribe((response:any)=>{
-       //login found
+       //Valid Reg
+
+       //signal user
+       this.success = true
+        this.successMessage = "Registration successful! Redirecting..."
+
+      //save login
        localStorage.setItem('token', response.idToken)
        localStorage.setItem('refresh', response.refresh_token)
        //store time of expiration in milliseconds
        localStorage.setItem('timeout',  ((new Date()).getTime()+response.expiresIn).toString())
        this.data.logIn()
-       this.router.navigate(['/myGrindSpots'])
+
+       setTimeout(()=>{
+         //delay to allow message to be seen
+        this.router.navigate(['/myGrindSpots'])
+        this.invalid = false
+        this.success = false
+       },1000)
+
+
      },(error)=>{
        console.log(error)
-       //Login not found
-       this.invalidReg = true
+       //Invalid Reg
+       this.invalid = true
+       this.invalidMessage = 'Registration failed, account may already exist.'
        this.username = ''
        this.password = ''
-     })
-  }
-
-  delete(){
-    //dev Only! delete after
-    this.http.post('  https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyD9c62y3FMZc7CRY1kyOOBSfZ3_d29VNt4',
-     {
-      idToken: localStorage.getItem('token')
-     }).subscribe((response:any)=>{
-      console.log('account deleted')
-      this.data.logOut()
-     },()=>{
-      console.log('delete failed')
      })
   }
 

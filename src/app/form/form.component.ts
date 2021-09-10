@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CentralData } from '../centralizedData.service';
 
 @Component({
@@ -7,21 +8,29 @@ import { CentralData } from '../centralizedData.service';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy {
 
   //defaults
-  public before:number
-  public after:number
-  public gain:number
-  public time:number
-  public class:string = 'default'
-  @Input()public spot:string = 'default'//accesed on grindspot pages
-  public AP:number
-  public DP:number
+  public before:string
+  public after:string
+  public gain:string
+  public time:string
+  public class:string = ''
+  @Input()public spot:string = ''//accesed on grindspot pages
+  public AP:string
+  public DP:string
   public agris:any
-  public boosts:number = 0
+  public boosts:string
+  public private:boolean = false
 
+  //alerts
+  public invalid:boolean = false
+  public invalidMessage:string
+  public successMessage:string
+  public success:boolean = false
 
+  public loggedIn:boolean
+  private loggedInSub: Subscription
   public classes:string[]
   public spots:string[]
 
@@ -30,33 +39,54 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     this.classes = this.data.getClasses()
     this.spots = this.data.getSpots()
+    this.loggedIn = this.data.getLoginState()
 
-    //if logged in, autofill using last response
-    //if on a grindspot page, auto fill the grindSpot
+    this.loggedInSub =this.data.getChangesSubj().subscribe((state) =>{
+      console.log('form login state changed')
+      this.loggedIn = state
+    })
+
+    //TODO if logged in, autofill using last response
+  }
+
+  ngOnDestroy(): void {
+    this.loggedInSub.unsubscribe()
+
   }
 
   packageData(){
     let sph
     if(this.gain){
-      sph = this.gain/(this.time/60)
+      sph = (parseInt(this.gain)/(parseInt(this.time)/60))
     }else{
-      sph = (this.after-this.before)/(this.time/60)
+      sph = (parseInt(this.after)-parseInt(this.before))/(parseInt(this.time)/60)
     }
+    sph = Math.floor(sph)
 
     let ag
     if( this.agris === 'yes'){
-      ag = 'yes'
+      ag = true
     }else{
-      ag = 'no'
+      ag = false
     }
 
+    let dt = new Date()
+    let dtString = dt.getFullYear() +'/'+
+    (dt.getMonth() < 10? '0'+(dt.getMonth()+1): dt.getMonth() )
+    +'/'+ (dt.getDate() < 10? '0'+dt.getDate(): dt.getDate() )
+
+
+
     let pack = {
-      silverPerHour: sph, 
+      silverPerHour: sph,
       AP: this.AP,
       DP: this.DP,
       class: this.class,
       agris: ag,
-      boosts: this.boosts
+      boosts: this.boosts ? this.boosts : 0,
+      date: dtString,
+      id:this.data.getLoginState()? localStorage.getItem('token'):'',
+      private: this.private
     }
 
     return pack
@@ -64,12 +94,74 @@ export class FormComponent implements OnInit {
 
   formSubmit(){
     //sends form to data base
-      this.http.post('https://api.jyuenw.com/grind', this.packageData()).subscribe(()=>{
+      this.hideAlerts()
 
+    //validate
+      if(this.AP && this.DP && (this.gain || (this.before && this.after)) &&
+      this.time &&this.spot && this.class){
+      //validation ok
+
+      // this.http.post('https://api.jyuenw.com/grind/spot/', this.packageData()).subscribe(()=>{
+      this.http.post('http://localhost:3001/grind/spot/'+ this.spot, this.packageData()).subscribe((res:any)=>{
+        if (res.success){
+          console.log('add success')
+          this.clear()
+          this.successAlert('Grind session succesfully added!')
+        }else{
+          this.invalidAlert('Grind session could not be added, our servers are currently having problems')
+        }
+      },()=>{
+        //call failed
+        this.invalidAlert('Grind session could not be added, please try again.')
       })
-    //if logged in include ID
+      //if logged in include ID
 
-    //else leave anonymous
+      //else leave anonymous
 
+      }else{
+        //non valid inputs
+        this.invalidAlert('Grind session could not be added, please check that all required inputs were entered and try again.')
+      }
+
+
+
+  }
+
+  hideAlerts(){
+     this.invalid= false
+     this.success= false
+  }
+
+  successAlert(message:string){
+    this.success = true
+    this.successMessage = message
+  }
+
+  invalidAlert(message:string){
+    this.invalid = true
+    this.invalidMessage = message
+  }
+
+  swapGain(){
+    //use delta silver for calculations
+    this.after =''
+    this.before = ''
+  }
+
+  swapBF(){
+    //use net gain for s/h calculations
+    this.gain = ''
+  }
+
+  clear(){
+    (this.before as string) = ''
+    this.after = ''
+    this.gain = ''
+    this.time = ''
+    this.class = ''
+    this.spot =''
+    this.AP = ''
+    this.DP = ''
+    this.boosts = ''
   }
 }

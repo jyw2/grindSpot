@@ -41,6 +41,19 @@ export class CentralData {
 
         }, ((new Date()).getTime())- (+timeout))
       }else{
+        //refresh the token now
+        http.post('https://identitytoolkit.googleapis.com/v1/token?key=AIzaSyD9c62y3FMZc7CRY1kyOOBSfZ3_d29VNt4',{
+            grant_type: 'refresh_token',
+            refresh_token: localStorage.getItem('refresh')
+          }).subscribe((response:any)=>{
+            //login found
+            localStorage.setItem('token', response.idToken)
+            localStorage.setItem('refresh', response.refresh_token)
+            //store time of expiration in milliseconds
+            localStorage.setItem('timeout',  ((new Date()).getTime()+response.expiresIn).toString())
+          },(error)=>{
+            console.log(error)
+          })
 
       }
     }else{

@@ -22,6 +22,7 @@
     "@swimlane/ngx-charts": "^19.0.1",
     "bootstrap": "^5.0.0-beta3",
     "chart.js": "^2.9.4",
+    "cors": "^2.8.5",
     "ng2-charts": "^2.4.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
