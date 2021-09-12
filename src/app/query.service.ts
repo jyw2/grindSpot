@@ -26,12 +26,13 @@ export class  queryService{
         //past month
         epochTime = Math.floor(((new Date()).getTime())/86400000 - 30)
       }else {
-        //past day
-        epochTime = Math.floor(((new Date()).getTime())/86400000 - 1)
+        //past week
+        epochTime = Math.floor(((new Date()).getTime())/86400000 - 7)
       }
-
-
       //note: time is sent as min epoch time of the session in days
+
+
+
       //DO NOT UNTAB THIS BLOCK OR THE QUEY STRING WILL BE BROKEN
       let q = `?
 time=${epochTime}&

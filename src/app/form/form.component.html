@@ -66,12 +66,12 @@
 
       </div>
      <hr>
-    <p>Optional</p>
+    <p>Options</p>
   <div class="row">
     <div class="col">
       <div class="form-check">
-        <input type="checkbox" class = 'form-check-input' id= 'agris' value = 'yes' [(ngModel)] = 'agris'>
-        <label class ="form-check-label" for = 'agris'> Agris</label>
+        <input type="checkbox" class = 'form-check-input' id= 'agris' value = true [(ngModel)] = 'agris'>
+        <label class ="form-check-label" for = 'agris'> Agris Used</label>
       </div>
       <div *ngIf = 'loggedIn' class="form-check">
         <input type="checkbox" class = 'form-check-input' id= 'private' value = true [(ngModel)] = 'private'>
@@ -79,7 +79,7 @@
       </div>
     </div>
     <div class="col">
-      <label for="boost" class = 'form-label'>Boosts</label>
+      <label for="boost" class = 'form-label'>Boosts Used (Leave empty for none) </label>
       <div class="input-group">
         <input type="number" class= 'form-control' id='boost' [(ngModel)] = 'boosts'>
         <div class="input-group-text">%</div>

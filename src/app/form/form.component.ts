@@ -20,7 +20,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() public defaultSpot:string
   public AP:string
   public DP:string
-  public agris:any
+  public agris:boolean = false
   public boosts:string
   public private:boolean = false
 
@@ -64,13 +64,6 @@ export class FormComponent implements OnInit, OnDestroy {
     }
     sph = Math.floor(sph)
 
-    let ag
-    if( this.agris === 'yes'){
-      ag = true
-    }else{
-      ag = false
-    }
-
     let dt = new Date()
     let dtString = dt.getFullYear() +'/'+
     (dt.getMonth() < 10? '0'+(dt.getMonth()+1): dt.getMonth() )
@@ -83,13 +76,13 @@ export class FormComponent implements OnInit, OnDestroy {
       AP: this.AP,
       DP: this.DP,
       class: this.class,
-      agris: ag,
+      agris: this.agris,
       boosts: this.boosts ? this.boosts : 0,
       date: dtString,
       id:this.data.getLoginState()? localStorage.getItem('token'):'',
       private: this.private
     }
-
+    console.log(pack)
     return pack
   }
 
