@@ -17,6 +17,7 @@ export class FormComponent implements OnInit, OnDestroy {
   public time:string
   public class:string = ''
   @Input()public spot:string = ''//accesed on grindspot pages
+  @Input() public defaultSpot:string
   public AP:string
   public DP:string
   public agris:any
@@ -96,28 +97,31 @@ export class FormComponent implements OnInit, OnDestroy {
     //sends form to data base
       this.hideAlerts()
 
-    //validate
+    //validate for no empty or negative inputs
       if(this.AP && this.DP && (this.gain || (this.before && this.after)) &&
       this.time &&this.spot && this.class){
-      //validation ok
+        if(+this.AP > 0 && +this.DP > 0 && (+this.gain > 0 || (+this.before > 0 && +this.after > 0)) && +this.time > 0)
+        {
+           //validation ok
 
-      // this.http.post('https://api.jyuenw.com/grind/spot/', this.packageData()).subscribe(()=>{
-      this.http.post('http://localhost:3001/grind/spot/'+ this.spot, this.packageData()).subscribe((res:any)=>{
-        if (res.success){
-          console.log('add success')
-          this.clear()
-          this.successAlert('Grind session succesfully added!')
+            // this.http.post('https://api.jyuenw.com/grind/spot/', this.packageData()).subscribe(()=>{
+            this.http.post('http://localhost:3001/grind/spot/'+ this.spot, this.packageData()).subscribe((res:any)=>{
+              if (res.success){
+                console.log('add success')
+                this.clear()
+                this.successAlert('Grind session succesfully added!')
+              }else{
+                this.invalidAlert('Grind session could not be added, our servers are currently having problems')
+              }
+            },()=>{
+              //call failed
+              this.invalidAlert('Grind session could not be added, please try again.')
+            })
+
         }else{
-          this.invalidAlert('Grind session could not be added, our servers are currently having problems')
+          //negative numbers
+          this.invalidAlert('Grind session could not be added, negative values are not allowed')
         }
-      },()=>{
-        //call failed
-        this.invalidAlert('Grind session could not be added, please try again.')
-      })
-      //if logged in include ID
-
-      //else leave anonymous
-
       }else{
         //non valid inputs
         this.invalidAlert('Grind session could not be added, please check that all required inputs were entered and try again.')
@@ -159,7 +163,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.gain = ''
     this.time = ''
     this.class = ''
-    this.spot =''
+    this.spot = this.defaultSpot
     this.AP = ''
     this.DP = ''
     this.boosts = ''

@@ -42,8 +42,9 @@ export class LoginComponent implements OnInit {
       //login found
       localStorage.setItem('token', response.idToken)
       //store time of expiration in milliseconds
-      localStorage.setItem('timeout',  ((new Date()).getTime()+response.expiresIn).toString())
-      localStorage.setItem('refresh', response.refresh_token)
+      localStorage.setItem('timeout',  (+((new Date()).getTime())+(+response.expiresIn)).toString())
+      console.log( ((new Date()).getTime())+ '+' + response.expiresIn*1000)
+      localStorage.setItem('refresh', response.refreshToken)
       //signal componenets we are authenticated
       this.data.logIn()
 

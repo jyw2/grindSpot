@@ -20,9 +20,13 @@ export class CentralData {
 
   constructor(private http: HttpClient){
     let timeout = localStorage.getItem('timeout')
+    console.log('timeout is: ' + timeout+', current time is: ' +(new Date()).getTime())
     if (timeout){
       if(+timeout > (new Date()).getTime()){
         //swith UI to logged in
+
+        console.log('Logged in previosly')
+
         this.loggedIn = true
         setTimeout(()=>{
           //auto refresh the token
@@ -31,26 +35,31 @@ export class CentralData {
             refresh_token: localStorage.getItem('refresh')
           }).subscribe((response:any)=>{
             //login found
-            localStorage.setItem('token', response.idToken)
+            localStorage.setItem('token', response.id_token)
             localStorage.setItem('refresh', response.refresh_token)
             //store time of expiration in milliseconds
-            localStorage.setItem('timeout',  ((new Date()).getTime()+response.expiresIn).toString())
+            localStorage.setItem('timeout',  (+((new Date()).getTime())+(+response.expires_in)*1000).toString())
+            this.logIn()
           },(error)=>{
             console.log(error)
           })
 
-        }, ((new Date()).getTime())- (+timeout))
+        }, ((+timeout)-(+(new Date()).getTime())) )
       }else{
         //refresh the token now
+
+        console.log('Refreshing token...')
+        console.log(localStorage.getItem('refresh'))
         http.post('https://identitytoolkit.googleapis.com/v1/token?key=AIzaSyD9c62y3FMZc7CRY1kyOOBSfZ3_d29VNt4',{
             grant_type: 'refresh_token',
             refresh_token: localStorage.getItem('refresh')
           }).subscribe((response:any)=>{
             //login found
-            localStorage.setItem('token', response.idToken)
+            localStorage.setItem('token', response.id_token)
             localStorage.setItem('refresh', response.refresh_token)
             //store time of expiration in milliseconds
-            localStorage.setItem('timeout',  ((new Date()).getTime()+response.expiresIn).toString())
+            localStorage.setItem('timeout',  (+((new Date()).getTime())+(+response.expires_in)*1000).toString())
+            this.logIn()
           },(error)=>{
             console.log(error)
           })

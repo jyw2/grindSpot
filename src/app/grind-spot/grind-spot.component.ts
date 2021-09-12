@@ -1,15 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CentralData } from '../centralizedData.service';
 import { queryService } from '../query.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-grind-spot',
   templateUrl: './grind-spot.component.html',
   styleUrls: ['./grind-spot.component.css']
 })
-export class GrindSpotComponent implements OnInit {
+export class GrindSpotComponent implements OnInit, OnDestroy {
 
   public title:string = 'Fogans'
 
@@ -19,6 +20,7 @@ export class GrindSpotComponent implements OnInit {
 
   //chart data
   public chartData: any
+  public loggedInSub:Subscription
 
   //filters
   public time:number = 1
@@ -42,12 +44,32 @@ export class GrindSpotComponent implements OnInit {
     this.classes = this.data.getClasses()
     this.title = this.unWebsafe(this.route.snapshot.params['spot'])
     this.getData
+
+    this.userVer = this.data.getLoginState()
+
+    this.loggedInSub =this.data.getChangesSubj().subscribe((state) =>{
+      console.log('form login state changed')
+      this.userVer = state
+    })
+
+    //TODO if logged in, autofill using last response
   }
 
-  getData(){
+  ngOnDestroy(): void {
+    this.loggedInSub.unsubscribe()
+
+  }
+
+
+  async getData(){
+
     //gets points from API and plots it on the graph
-    this.chartData =  this.query.spotQuery(this.time,this.class,this.APStart, this.APEnd,this.DPStart,this.DPEnd, this.agris,this.boosts,this.userVer,this.title)
-    console.log(this.chartData)
+    this.query.spotQuery(this.time,this.class,this.APStart,
+    this.APEnd,this.DPStart,this.DPEnd, this.agris,this.boosts,this.userVer,this.title).then((sessions:any)=>{
+        this.chartData = sessions
+        console.log(sessions)
+      })
+
   }
 
 
