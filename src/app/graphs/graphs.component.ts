@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription, Subject } from 'rxjs';
 
 
 @Component({
@@ -6,38 +7,32 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './graphs.component.html',
   styleUrls: ['./graphs.component.css']
 })
-export class GraphsComponent implements OnInit {
+export class GraphsComponent implements OnInit, OnDestroy {
 
   public true = true
-  @Input() public chartData:any = [
+  @Input() incomingData:Subject<[]>
+  private incomingDataSub: Subscription
+
+  public chartData:any = [
     {
       "name": "",
       "series": [
-        {
-          "name": "2010",
-          "x": '2020/01/1',
-          "y": 80.3,
-          "r": 2
-        },
-        {
-          "name": "2000",
-          "x": '1999/01/06',
-          "y": 80.3,
-          "r": 2
-        },
-        {
-          "name": "1990",
-          "x":  '1999/03/01',
-          "y": 75.4,
-          "r": 2
-        }
       ]
     }
   ]
 
+
   constructor() { }
 
   ngOnInit(): void {
+    this.incomingDataSub = this.incomingData.subscribe((data:any)=>{
+      this.chartData = [...data]
+
+    })
+  }
+
+  ngOnDestroy(): void{
+    this.incomingDataSub.unsubscribe()
   }
 
 }

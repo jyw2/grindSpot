@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
 import { CentralData } from '../centralizedData.service';
+import { QueryService } from '../query.service';
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.component.html',
@@ -15,11 +16,13 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   //filters
   public time:number = 1
-  public class:number = 1
+  public class:string = 'All'
   public APStart:string = ''//empty means all
   public APEnd:string = ''//empty means all
   public DPStart:string = ''//empty means all
   public DPEnd:string = ''//empty means all
+  public agris:boolean = false
+  public boosts:boolean = false
 
 
   //class list
@@ -27,11 +30,12 @@ export class RankingComponent implements OnInit, OnDestroy {
 
 
   public grindSpots:{name:string, quantity:number}[] =
-     [{name:'Fogans', quantity:30}, {name:'Stars End', quantity:200}]
-  private timer = interval(120000)//how often the ranks are updated
+     [{name:'Bandits', quantity:30}, {name:'Stars End', quantity:200}]
+  private timer = interval(3600000)//how often the ranks are updated
   private intervalSub:Subscription
 
-  constructor(private routerService:Router, private http:HttpClient,private data:CentralData) { }
+  constructor(private routerService:Router, private http:HttpClient,private data:CentralData,
+    private queryService: QueryService) { }
 
   ngOnInit(): void {
     this.updateRanks()
@@ -50,7 +54,6 @@ export class RankingComponent implements OnInit, OnDestroy {
   spotSelected(name:any){
     //Redirect to the specefic grindspot page
     this.routerService.navigate(['/spot',this.websafe(name)])
-    console.log(this.websafe(name))
   }
 
   websafe(name:string){
@@ -60,13 +63,37 @@ export class RankingComponent implements OnInit, OnDestroy {
     return name
   }
 
-  updateRanks(){
+  async updateRanks(){
     //update the ranking
     console.log('updating')
-    this.http.get(`https://api.jyuenw.com/grind/silver?time=${this.time}&class=${this.class}&APStart=${this.APStart}&APEnd=${this.APEnd}&APStart=${this.DPStart}&APEnd=${this.DPEnd}`).subscribe(( serverSpots:any)=>{
-      this.grindSpots = serverSpots
-    })
+    if(this.title == 'Most Popular'){
+      //get service to call API for top popularity
+      await this.queryService.popularQuery(this.time,this.class, this.APStart, this.APEnd, this.DPStart,this.DPEnd,
+        this.agris,this.boosts)
+        .then((spots:any)=>{
+          //sessions received
+          this.grindSpots = spots
+        }).catch(()=>{
+          //call failed on service's end
+          console.log('query service failed')
+        })
+    }else{
+      //get service to call API for top silver
+    await this.queryService.silverQuery(this.time,this.class, this.APStart, this.APEnd, this.DPStart,this.DPEnd,
+      this.agris,this.boosts)
+      .then((spots:any)=>{
+        //sessions received
+        this.grindSpots = spots
+        console.log(this.grindSpots)
+      }).catch(()=>{
+        //call failed on service's end
+        console.log('query service failed')
+      })
+    }
+
+
   }
+
 
 
 

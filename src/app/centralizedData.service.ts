@@ -11,7 +11,7 @@ export class CentralData {
    'Sage','Corsair']
 
   private spots: string[]  = ['Fogans', 'Helms', 'Bandits'
-  , 'Rogues']
+  , 'Rogues', 'Aakman', 'Crescent Mountains', 'Titium Valley', 'Hystria Ruins', 'Gahaz', 'Nagas' ]
 
   private loggedIn:boolean = false
 

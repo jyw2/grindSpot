@@ -8,7 +8,6 @@ import { GrindSpotComponent } from './grind-spot/grind-spot.component';
 import { GraphsComponent } from './graphs/graphs.component';
 import { AddSessionComponent } from './add-session/add-session.component';
 import { LoginComponent } from './login/login.component';
-import { UserGrindSpotComponent } from './user-grind-spot/user-grind-spot.component';
 import { Routes,RouterModule } from '@angular/router';
 import {HttpClientModule} from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
@@ -16,14 +15,17 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormComponent } from './form/form.component';
 import { MySpotsComponent } from './my-spots/my-spots.component'
+import { AuthGuard } from './routeGuard.service';
 
 const routes:Routes = [
   {path: '', component: HomeComponent},
   {path: 'spot/:spot', component: GrindSpotComponent},
+  {path: 'spot/:spot/:state', component: GrindSpotComponent,canActivate: [AuthGuard]},
   {path: 'add', component: FormComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'login/:misc', redirectTo: 'login'},
   {path: 'register', component: LoginComponent},
-  {path: 'myGrindSpots', component: MySpotsComponent}
+  {path: 'myGrindSpots', component: MySpotsComponent, canActivate: [AuthGuard]}
 ]
 
 
@@ -31,14 +33,13 @@ const routes:Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
-    RankingComponent,
     GrindSpotComponent,
     GraphsComponent,
     AddSessionComponent,
     LoginComponent,
-    UserGrindSpotComponent,
     FormComponent,
     MySpotsComponent,
+    RankingComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +47,7 @@ const routes:Routes = [
     RouterModule.forRoot(routes),
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

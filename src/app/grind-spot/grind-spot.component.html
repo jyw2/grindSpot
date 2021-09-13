@@ -1,70 +1,79 @@
 
-    <div class="d-flex mt-5 mb-4 justify-content-between">
-      <h2>{{title}}</h2>
-      <button class = 'btn btn-primary'>My grinds at {{title}}</button>
+    <div class="col">
+      <div class="d-flex mt-5 mb-4 justify-content-between">
+        <h2>{{title}}</h2>
+        <button class = 'btn btn-primary' (click) = 'switchStates()'>{{userVer? "Everyone's": 'My'}} grinds at {{title}}</button>
+      </div>
+
+
+      <div class="row align-items-center ">
+
+        <div class="col">
+          <label for="time" class = 'form-label'>Time</label>
+          <select class="form-select" id = 'time' [(ngModel)] = 'time'>
+            <option selected value="1">Past year</option>
+            <option value="2"> Past month</option>
+            <option value="3"> Past week</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="class" class = 'form-label'>Class</label>
+          <select class="form-select" id = 'class' [(ngModel)] = 'class'>
+            <option selected value="All">All</option>
+            <option *ngFor = 'let class of classes;let i = index'value="{{class}}">{{class}}</option>
+          </select>
+        </div>
+
+        <div class="col">
+          <label for="AP" class = 'form-label'>AP [Leave empty for all]</label>
+          <div class="input-group">
+            <input class = 'form-control' type="text" id ='AP' [(ngModel)] = 'APStart'>
+            <div class="input-group-text">To</div>
+            <input class = 'form-control' type="text"  [(ngModel)] = 'APEnd'>
+          </div>
+        </div>
+
+        <div class="col">
+          <label for="DP" class = 'form-label'>DP [Leave empty for all]</label>
+          <div class="input-group">
+            <input class = 'form-control' type="text" id ='DP' [(ngModel)] = 'DPStart'>
+            <div class="input-group-text">To</div>
+            <input class = 'form-control' type="text" [(ngModel)] = 'DPEnd'>
+          </div>
+        </div>
+      </div>
+        <!-- checkboxes -->
+
+            <div class="d-flex mt-3 justify-content-between">
+                <div>
+                  <div class="form-check">
+                    <input type="checkbox" class = 'form-check-input' id= 'agris' value = 'true' [(ngModel)] = 'agris'>
+                    <label class ="form-check-label" for = 'agris'> Agris</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="checkbox" class = 'form-check-input' id= 'boosts' value = 'true' [(ngModel)] = 'boosts'>
+                    <label class ="form-check-label" for = 'boosts'> Drop Rate Boosts</label>
+                  </div>
+                </div>
+
+
+
+                  <button class="btn btn-outline-dark" (click) = 'getData()'>Apply Filters</button>
+
+            </div>
+
+
+      <div class="row" >
+        <div class="alert alert-danger mt-3" *ngIf = 'invalid'>{{invalidMessage}}</div>
+
+        <app-graphs [incomingData] = 'graphSub' style="height: 20vh; margin-bottom: 5vh;"></app-graphs>
+      </div>
+
+      <div class="row">
+        <app-form spot = '{{title}}' defaultSpot = '{{title}}'></app-form>
+      </div>
     </div>
 
-
-    <div class="row align-items-center ">
-
-      <div class="col">
-        <label for="time" class = 'form-label'>Time</label>
-        <select class="form-select" id = 'time' [(ngModel)] = 'time'>
-          <option selected value="1">Past year</option>
-          <option value="2"> Past month</option>
-          <option value="3"> Past week</option>
-        </select>
-      </div>
-      <div class="col">
-        <label for="class" class = 'form-label'>Class</label>
-        <select class="form-select" id = 'class' [(ngModel)] = 'class'>
-          <option selected value="All">All</option>
-          <option *ngFor = 'let class of classes;let i = index'value="{{class}}">{{class}}</option>
-        </select>
-      </div>
-
-      <div class="col">
-        <label for="AP" class = 'form-label'>AP [Leave empty for all]</label>
-        <div class="input-group">
-          <input class = 'form-control' type="text" id ='AP' [(ngModel)] = 'APStart'>
-          <div class="input-group-text">To</div>
-          <input class = 'form-control' type="text"  [(ngModel)] = 'APEnd'>
-        </div>
-      </div>
-
-      <div class="col">
-        <label for="DP" class = 'form-label'>DP [Leave empty for all]</label>
-        <div class="input-group">
-          <input class = 'form-control' type="text" id ='DP' [(ngModel)] = 'DPStart'>
-          <div class="input-group-text">To</div>
-          <input class = 'form-control' type="text" [(ngModel)] = 'DPEnd'>
-        </div>
-      </div>
-
-      <!-- checkboxes -->
-
-          <div class="d-flex mt-3 justify-content-between">
-              <div>
-                <div class="form-check">
-                  <input type="checkbox" class = 'form-check-input' id= 'agris' value = 'true' [(ngModel)] = 'agris'>
-                  <label class ="form-check-label" for = 'agris'> Agris</label>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class = 'form-check-input' id= 'boosts' value = 'true' [(ngModel)] = 'boosts'>
-                  <label class ="form-check-label" for = 'boosts'> Drop Rate Boosts</label>
-                </div>
-              </div>
-
-
-
-                <button class="btn btn-outline-dark" (click) = 'getData()'>Apply Filters</button>
-
-          </div>
-
-
-
-      <app-graphs [chartData] = 'chartData'></app-graphs>
-      <app-form spot = '{{title}}' defaultSpot = '{{title}}'></app-form>
 
 
 

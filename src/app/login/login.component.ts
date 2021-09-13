@@ -19,9 +19,13 @@ export class LoginComponent implements OnInit {
   public success:boolean = false
 
 
-  constructor(private http:HttpClient, private data: CentralData, private router:Router) { }
+  constructor(private http:HttpClient, private routerService:Router, private data: CentralData, private router:Router) { }
 
   ngOnInit(): void {
+    //redirect if logged in
+    if(this.data.getLoginState() ){
+      this.routerService.navigate(['/myGrindSpots'])
+    }
   }
 
   login(){

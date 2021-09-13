@@ -1,1 +1,13 @@
-<p>my-spots works!</p>
+<h1 class = 'pt-5 pb-4'>My Grind Spots</h1>
+<h2 *ngIf = 'loading' style="color: rgb(73, 73, 73);"> Loading...</h2>
+<h3 *ngIf = 'grindSpots == 0'>You currently have no grind spots, add a grind session <a routerLink ="/add">here!</a></h3>
+<ul class="list-group pt-3">
+  <li style = 'cursor: pointer;' *ngFor = 'let spot of grindSpots; let i = index' li class="list-group-item" (click) = 'spotSelected(spot)'>
+    <div class="row" >
+      <div class="col col-2">
+        <a>{{spot}}</a>
+      </div>
+    </div>
+  </li>
+
+</ul>
