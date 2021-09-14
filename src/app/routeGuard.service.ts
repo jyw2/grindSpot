@@ -6,6 +6,7 @@ import { CentralData } from "./centralizedData.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
+  //guards login only pages
 
   constructor( private data:CentralData, private route: Router){
 

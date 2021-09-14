@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
+  //homepage, holds two ranking comps
   constructor() { }
 
   ngOnInit(): void {

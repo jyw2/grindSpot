@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private http:HttpClient, private routerService:Router, private data: CentralData, private router:Router) { }
+  //login/Register page
+
 
   ngOnInit(): void {
     //redirect if logged in
@@ -29,29 +31,30 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    //hide error messages
     this.invalid = false
     this.success = false
 
-    //scramble credentials then send and receive token if valid
+    //Send creds and receive ID token if valid
     this.http.post('  https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD9c62y3FMZc7CRY1kyOOBSfZ3_d29VNt4',
     {
       email:this.username,
       password:this.password,
       returnSecureToken:true
     }).subscribe((response:any)=>{
+      //login success
       //signal user
       this.success = true
       this.successMessage = "Login successful! Redirecting..."
 
-      //login found
       localStorage.setItem('token', response.idToken)
+
       //store time of expiration in milliseconds
       localStorage.setItem('timeout',  (+((new Date()).getTime())+(+response.expiresIn)).toString())
-      console.log( ((new Date()).getTime())+ '+' + response.expiresIn*1000)
       localStorage.setItem('refresh', response.refreshToken)
+
       //signal componenets we are authenticated
       this.data.logIn()
-
       setTimeout(()=>{
         //delay to allow message to be seen
        this.router.navigate(['/myGrindSpots'])
@@ -60,7 +63,7 @@ export class LoginComponent implements OnInit {
       },1000)
 
     },(error:any)=>{
-      console.log(error)
+      //login fail
       //Login not found
       this.invalid = true
       this.invalidMessage = 'Login failed, please check your username and or password.'
@@ -77,7 +80,6 @@ export class LoginComponent implements OnInit {
 
     //validate
     if (this.email.valid && this.username.includes('.')){
-      console.log('valid')
     }else if( this.password.length <= 8){
       this.invalid = true
       this.invalidMessage = 'Passwords must be longer than 8 characters'
@@ -118,7 +120,6 @@ export class LoginComponent implements OnInit {
 
 
      },(error)=>{
-       console.log(error)
        //Invalid Reg
        this.invalid = true
        this.invalidMessage = 'Registration failed, account may already exist.'

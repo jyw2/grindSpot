@@ -9,6 +9,7 @@ import { QueryService } from '../query.service';
   styleUrls: ['./my-spots.component.css']
 })
 export class MySpotsComponent implements OnInit, AfterContentChecked {
+  //Lists grind spots the user has added sessions to
 
   public loading:boolean = true
   public grindSpots:any
@@ -17,7 +18,6 @@ export class MySpotsComponent implements OnInit, AfterContentChecked {
 
   ngOnInit(): void {
     this.updateSpots()
-    console.log('Inited')
   }
 
   ngAfterContentChecked(): void{
@@ -25,11 +25,10 @@ export class MySpotsComponent implements OnInit, AfterContentChecked {
   }
 
   async updateSpots(){
-    //grab spots for user
+    //grab spots the user has submitted sessions to
     this.loading = true
     this.grindSpots = await this.queryService.userSpotsQuery(localStorage.getItem('token'))
     this.grindSpots = this.grindSpots.sort()
-    console.log('updating my spots')
     this.loading = false
   }
 

@@ -10,6 +10,7 @@ import { QueryService } from '../query.service';
   styleUrls: ['./ranking.component.css']
 })
 export class RankingComponent implements OnInit, OnDestroy {
+  //holds top 10 of silver per hour or popularity
 
   @Input() public title:string = 'Top Silver Per Hour (Avg)'
   @Input() public units:string = 'Million Silver/Hour'
@@ -25,12 +26,14 @@ export class RankingComponent implements OnInit, OnDestroy {
   public boosts:boolean = false
 
 
-  //class list
+  //available classes
   public classes:string[]
 
-
+  //Spots that are rendered
   public grindSpots:{name:string, quantity:number}[] =
      [{name:'Bandits', quantity:30}, {name:'Stars End', quantity:200}]
+
+  //misc vars
   private timer = interval(3600000)//how often the ranks are updated
   private intervalSub:Subscription
 
@@ -39,11 +42,13 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.updateRanks()
+
     //start the update cycle
     this.intervalSub  = this.timer.subscribe(()=>{
       this.updateRanks()
     })
 
+    //fill data
     this.classes = this.data.getClasses()
   }
 
@@ -65,7 +70,6 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   async updateRanks(){
     //update the ranking
-    console.log('updating')
     if(this.title == 'Most Popular'){
       //get service to call API for top popularity
       await this.queryService.popularQuery(this.time,this.class, this.APStart, this.APEnd, this.DPStart,this.DPEnd,
@@ -84,17 +88,11 @@ export class RankingComponent implements OnInit, OnDestroy {
       .then((spots:any)=>{
         //sessions received
         this.grindSpots = spots
-        console.log(this.grindSpots)
+
       }).catch(()=>{
         //call failed on service's end
         console.log('query service failed')
       })
     }
-
-
   }
-
-
-
-
 }

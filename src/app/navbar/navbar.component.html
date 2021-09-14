@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark ">
+  <div class="container-fluid">
+    <a class="navbar-brand text-light" href =''>BDO Grindspot</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" routerLink="">Rankings</a>
+        <a class="nav-link" routerLink="/myGrindSpots" *ngIf = 'loggedIn'>My Grindspots</a>
+        <a class="nav-link" routerLink ="/add">Quick Add</a>
+      </div>
+      <div class="d-flex ms-auto ">
+        <div class="navbar-nav">
+          <a class="nav-link pt-3" routerLink="/login" *ngIf = 'loggedIn' (click) = logout()>Logout</a>
+          <a class="nav-link pt-3" routerLink="/login"  *ngIf = '!loggedIn'>Login</a>
+          <a class="nav-link pt-3" routerLink="/login"  *ngIf = '!loggedIn'> Register</a>
+          <div class="dropdown">
+            <div class="input-group pt-2 pb-2 " data-bs-toggle="dropdown">
+              <input class="form-control" id='spotSearch' placeholder="Search Spots" (keypress) = updateSearch() [(ngModel)] = "search">
+            </div>
+
+            <ul class = "dropdown-menu">
+              <li *ngIf = "matchedSpots.length == 0"><a href="#" class = "dropdown-item">No spots found</a></li>
+              <li *ngFor = 'let spot of matchedSpots'><a class = "dropdown-item" routerLink="{{'/spot/'+ spot}}">{{spot}}</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+</nav>

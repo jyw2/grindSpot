@@ -3,12 +3,13 @@ import { Injectable } from "@angular/core"
 
 @Injectable({providedIn: 'root'})
 export class  QueryService{
+  //holds functions for querying the database
 
   constructor(private http:HttpClient){}
 
 
-  private domain:string = 'http://localhost:3001' //dev
-  // private domain:string = 'https://api.jyuenw.com' //production
+  // private domain:string = 'http://localhost:3001' //dev
+  private domain:string = 'https://api.jyuenw.com' //production
 
   async spotQuery(time:number, Class:string,APStart:string, APEnd:string,
   DPStart:string, DPEnd:string,agris:boolean,boosts:boolean,userVer:boolean,
@@ -48,7 +49,6 @@ id=${userVer? localStorage.getItem('token'):''}`
 
       //send query to server
       await this.http.get(this.domain + '/grind/spot/' + spot+q).toPromise().then((data)=>{
-        console.log( data)
         sessions = data
       }).catch(()=>{
         console.log('query failed')
@@ -59,7 +59,6 @@ id=${userVer? localStorage.getItem('token'):''}`
   async silverQuery(time:number, Class:string,APStart:string, APEnd:string,
   DPStart:string, DPEnd:string,agris:boolean,boosts:boolean){
       //query for a list of sessions based on filters
-      console.log('test')
       let sessions
 
       //returns packed query string with filters
@@ -92,7 +91,6 @@ boosts=${boosts}`
 
       //send query to server
       await this.http.get(this.domain + '/grind/silver'+q).toPromise().then((data)=>{
-        console.log( data)
         sessions = data
       }).catch(()=>{
         console.log('query failed :(')
@@ -157,4 +155,5 @@ boosts=${boosts}`
     })
     return spots
   }
+
 }

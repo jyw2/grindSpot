@@ -11,6 +11,8 @@ import { Subject, Subscription } from 'rxjs';
   styleUrls: ['./grind-spot.component.css']
 })
 export class GrindSpotComponent implements OnInit, OnDestroy {
+  //component for a grindspot information page
+  //contains: form comp and graphs comp
 
   public title:string = 'Fogans'
   public graphSub:Subject<[]> =  new Subject()
@@ -88,8 +90,6 @@ export class GrindSpotComponent implements OnInit, OnDestroy {
           this.invalidAlert('No sessions exist for these filters, please try another combination.')
           return
         }
-
-        console.log(sessions)
 
         //format data for graph
         for (let session of sessions){

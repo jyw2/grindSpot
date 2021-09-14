@@ -9,8 +9,9 @@ import { CentralData } from '../centralizedData.service';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit, OnDestroy {
+  //Component for a user to add a grind session
 
-  //defaults
+  //default form values
   public before:string
   public after:string
   public gain:string
@@ -30,32 +31,36 @@ export class FormComponent implements OnInit, OnDestroy {
   public successMessage:string
   public success:boolean = false
 
+  //login vars
   public loggedIn:boolean
   private loggedInSub: Subscription
+
+  //options from the game
   public classes:string[]
   public spots:string[]
 
   constructor(private data:CentralData, private http:HttpClient ) { }
 
   ngOnInit(): void {
+    //get centralized data
     this.classes = this.data.getClasses()
     this.spots = this.data.getSpots()
     this.loggedIn = this.data.getLoginState()
 
+    //update login state when logged in
     this.loggedInSub =this.data.getChangesSubj().subscribe((state) =>{
-      console.log('form login state changed')
       this.loggedIn = state
     })
 
-    //TODO if logged in, autofill using last response
+    //TODO if logged in, autofill forms using last response
   }
 
   ngOnDestroy(): void {
     this.loggedInSub.unsubscribe()
-
   }
 
   packageData(){
+    //Package object to send with the post request for the grind session
     let sph
     if(this.gain){
       sph = (parseInt(this.gain)/(parseInt(this.time)/60))
@@ -82,7 +87,6 @@ export class FormComponent implements OnInit, OnDestroy {
       id:this.data.getLoginState()? localStorage.getItem('token'):'',
       private: this.private
     }
-    console.log(pack)
     return pack
   }
 
@@ -97,13 +101,14 @@ export class FormComponent implements OnInit, OnDestroy {
         {
            //validation ok
 
-            // this.http.post('https://api.jyuenw.com/grind/spot/', this.packageData()).subscribe(()=>{
-            this.http.post('http://localhost:3001/grind/spot/'+ this.spot, this.packageData()).subscribe((res:any)=>{
+            this.http.post('https://api.jyuenw.com/grind/spot/' + this.spot, this.packageData()).subscribe((res:any)=>{
+            // this.http.post('http://localhost:3001/grind/spot/'+ this.spot, this.packageData()).subscribe((res:any)=>{
               if (res.success){
-                console.log('add success')
+                //session added
                 this.clear()
                 this.successAlert('Grind session succesfully added!')
               }else{
+                //session add failed on server side logic
                 this.invalidAlert('Grind session could not be added, our servers are currently having problems')
               }
             },()=>{
@@ -151,6 +156,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   clear(){
+    //clear form
     (this.before as string) = ''
     this.after = ''
     this.gain = ''

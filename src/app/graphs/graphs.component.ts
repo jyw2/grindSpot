@@ -8,6 +8,7 @@ import { Subscription, Subject } from 'rxjs';
   styleUrls: ['./graphs.component.css']
 })
 export class GraphsComponent implements OnInit, OnDestroy {
+  //component for a graph
 
   public true = true
   @Input() incomingData:Subject<[]>
@@ -25,6 +26,7 @@ export class GraphsComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
+    //change data when it changes in the parent
     this.incomingDataSub = this.incomingData.subscribe((data:any)=>{
       this.chartData = [...data]
 

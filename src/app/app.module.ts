@@ -16,6 +16,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormComponent } from './form/form.component';
 import { MySpotsComponent } from './my-spots/my-spots.component'
 import { AuthGuard } from './routeGuard.service';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes:Routes = [
   {path: '', component: HomeComponent},
@@ -40,6 +41,7 @@ const routes:Routes = [
     FormComponent,
     MySpotsComponent,
     RankingComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
