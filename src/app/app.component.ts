@@ -9,7 +9,10 @@ import { CentralData } from './centralizedData.service';
 })
 export class AppComponent  implements OnInit, OnDestroy{
 
+  public matchedSpots: string[]
   public loggedIn:boolean = false
+  public spots: string[]
+  public search: string
 
   title = 'grindSpot';
 
@@ -24,6 +27,8 @@ export class AppComponent  implements OnInit, OnDestroy{
     })
     //initial check
     this.loggedIn = this.data.getLoginState()
+
+    this.spots = this.data.getSpots()
   }
 
   ngOnDestroy(): void {
@@ -32,5 +37,24 @@ export class AppComponent  implements OnInit, OnDestroy{
 
   logout(){
     this.data.logOut()
+  }
+
+  updateSearch(){
+    //refresh the search results
+    setTimeout(() => {
+      console.log(this.search)
+      if(this.search){
+        this.matchedSpots = []
+        for(let spot of this.spots){
+          console.log(spot)
+          if(spot.toLowerCase().includes(this.search.toLowerCase())){
+            this.matchedSpots.push(spot)
+          }
+        }
+
+      }
+    }, 300);
+
+
   }
 }

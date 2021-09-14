@@ -62,6 +62,7 @@
 
 
       <ul class="list-group pt-3">
+        <li class="list-group-item" *ngIf = 'grindSpots.length == 0'>No information for these filters, try another combination!</li>
         <li style = 'cursor: pointer;' *ngFor = 'let spot of grindSpots; let i = index' li class="list-group-item" (click) = 'spotSelected(spot.name)'>
           <div class="row" >
 
