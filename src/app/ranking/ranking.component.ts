@@ -31,7 +31,7 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   //Spots that are rendered
   public grindSpots:{name:string, quantity:number}[] =
-     [{name:'Bandits', quantity:30}, {name:'Stars End', quantity:200}]
+     [{name:'Loading...', quantity:30}]
 
   //misc vars
   private timer = interval(3600000)//how often the ranks are updated

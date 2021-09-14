@@ -10,8 +10,15 @@ export class CentralData {
    'Striker','Mystic','Archer','Lahn','Shai', 'Guardian', 'Hashashin','Nova',
    'Sage','Corsair']
 
-  private spots: string[]  = ['Fogans', 'Helms', 'Bandits'
-  , 'Rogues', 'Aakman', 'Crescent Mountains', 'Titium Valley', 'Hystria Ruins', 'Gahaz', 'Nagas' ]
+  private spots: string[]  = ['Mansha Forest', 'Catfishman Camp', 'Lake Kaia', 'Rhutum Outstation', 'Rhutum Sentry Post',
+'Hexe Sanctuary', 'Marie Cave', 'LongLeaf Tree Sentry Post', 'LongLeaf Tree Forest', 'Cyclops Land', 'North kaia Mountain', 'Abandoned Monastery',
+'Padix Island', 'Abandoned Iron Mine', 'Rhutum', 'Saunil', 'Manes', 'Rogues', 'Helms', "Elric Shrine", 'Canyon of Corrupttion', 'Soldiers Cemetery',
+'Sausan Garrison', 'Sausan Garrison Wharf', 'Hasrah Cliff', 'Kratuga Ancient Ruins', 'Bashim Base', 'Titium Valley', 'Desert Naga Temple', 'Waragon Nest',
+'Gahaz','Cadry Ruins', 'Crescent Shrine', 'Taphtar Plain', 'Basilisk Den', 'Pila Ku Jail', 'Roud Sulfur Works', 'Aakman Temple', 'Hystria Ruins',
+'Pollys Forest', 'Loopy Tree Forest', 'Navarn Steppe', 'Manshaum Forest', 'Tooth Fairy Forest', 'Mirumok Ruins', 'Gyfin Rhasia Temple', 'Tshira Ruins'
+,'Khalk Canyon', 'Blood Wolf Settlement', 'Shrekhan Necropolis', 'Protty Cave','Sycraia Underwater Ruins', 'Stars End', 'Ash Forest', 'Thornwood Forest',
+'Tunkuta', 'Oluns Valley', 'Crypt of Resting Thoughts', 'Biraghi Den', 'Northern Plain of Serendia', 'Southern Cienaga', 'Gilsh Swamp', 'Castle Ruins', 'Orc Camp'
+,'Bloody Monastery' ]
 
   private loggedIn:boolean = false
 
