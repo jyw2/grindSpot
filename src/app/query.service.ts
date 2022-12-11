@@ -9,7 +9,7 @@ export class  QueryService{
 
 
   // private domain:string = 'http://localhost:3001' //dev
-  private domain:string = 'https://api.jyuenw.com' //production
+  private domain:string = 'https://jyuenwapi.azurewebsites.net' //production
 
   async spotQuery(time:number, Class:string,APStart:string, APEnd:string,
   DPStart:string, DPEnd:string,agris:boolean,boosts:boolean,userVer:boolean,
